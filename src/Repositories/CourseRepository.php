@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use PDO;
+use App\Entities\Course;
 
 class CourseRepository
 {
@@ -14,10 +15,9 @@ class CourseRepository
 
     public function fetchCourses(): array
     {
-        $stmt = $this->pdo->prepare("SELECT kurs.*, kursort.name AS kursort FROM kurs"
+        $stmt = $this->pdo->query("SELECT kurs.*, kursort.name AS kursort FROM kurs"
             . " JOIN kursort ON kursort.id = kurs.kursort_id");
-        $stmt->execute(null);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Course::class);
     }
 
     public function fetchCours($id)
@@ -26,7 +26,8 @@ class CourseRepository
             . " JOIN fachbereich ON fachbereich.id = kurs.fachbereich_id"
             . " WHERE kursnummer = :id");
         $stmt->execute(['id' => $id]);
-        return $stmt->fetchObject();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, Course::class);
+        return $stmt->fetch(PDO::FETCH_CLASS);
     }
 
     public function fetchCoursesByArea($id = ''): array
@@ -36,7 +37,7 @@ class CourseRepository
             . " JOIN kursort ON kursort.id = kurs.kursort_id"
             . " WHERE fachbereich.id like :id");
         $stmt->execute(['id' => $id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Course::class);
     }
 
     public function fetchCoursesByPlace($id = ''): array
@@ -46,7 +47,7 @@ class CourseRepository
             . " WHERE kursort.id like :id");
         $stmt->execute(['id' => $id]);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_CLASS, Course::class);
     }
 
     public function fetchAllEvents($id): array

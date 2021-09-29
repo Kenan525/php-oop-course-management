@@ -1,7 +1,7 @@
 <?php include("../init.php"); ?>
 <?php include "../Layout/head.php"; ?>
 <?php
-$courseRepository = new App\Repositories\CourseRepository($pdo);
+$courseRepository = $container->getCourseRepository();
 $coursePlaces = $courseRepository->fetchAllCoursePlaces();
 if ($_POST["place"] === 'alle' || empty($_POST)) {
     $courses = $courseRepository->fetchCourses();
@@ -32,10 +32,10 @@ if ($_POST["place"] === 'alle' || empty($_POST)) {
     </tr>
     <?php foreach ($courses as $cours): ?>
         <tr>
-            <td><?php echo $cours['kursnummer'] ?></td>
-            <td><?php echo $cours['name'] ?></td>
-            <td><?php echo $cours['beginndatum'] ?></td>
-            <td><?php echo $cours['kursort'] ?></td>
+            <td><?php echo $cours->kursnummer ?></td>
+            <td><?php echo $cours->name ?></td>
+            <td><?php echo $cours->beginndatum ?></td>
+            <td><?php echo $cours->kursort ?></td>
         </tr>
     <?php endforeach; ?>
 </table>

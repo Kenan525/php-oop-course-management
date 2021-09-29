@@ -4,7 +4,7 @@
 <p class="lead">Das hier ist die Startseite des Blogs.</p>
 
 <?php
-    $courseRepository = new App\Repositories\CourseRepository($pdo);
+    $courseRepository = $container->getCourseRepository();
     $courses = $courseRepository->fetchCourses();
 ?>
 <ul>
@@ -37,10 +37,10 @@
     </tr>
     <?php foreach ($courses as $row) : ?>
     <tr>
-        <td><?php echo $row["kursnummer"]; ?></td>
-        <td><a href="courseDetails.php?id=<?php echo $row["kursnummer"]; ?>"><?php echo $row["name"]; ?></a></td>
-        <td><?php echo $row["beginndatum"]; ?></td>
-        <td><?php echo $row["kursort"]; ?></td>
+        <td><?php echo $row->kursnummer; ?></td>
+        <td><a href="courseDetails.php?id=<?php echo $row->kursnummer; ?>"><?php echo $row->name; ?></a></td>
+        <td><?php echo $row->beginndatum; ?></td>
+        <td><?php echo $row->kursort; ?></td>
     </tr>
     <?php endforeach; ?>
     </tbody>

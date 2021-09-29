@@ -1,7 +1,7 @@
 <?php include("../init.php"); ?>
 <?php include "../Layout/head.php"; ?>
 <?php
-$courseRepository = new App\Repositories\CourseRepository($pdo);
+$courseRepository = $container->getCourseRepository();
 $courseNumber = $_GET['id'];
 $course = $courseRepository->fetchCours($courseNumber);
 $attendees = $courseRepository->fetchAllAttendees($courseNumber);
